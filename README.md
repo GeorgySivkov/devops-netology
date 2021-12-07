@@ -6,9 +6,3 @@ This about third commit
 
 ===
 This is without fix
-
-===
-And one more change
-
-===
-And one more
