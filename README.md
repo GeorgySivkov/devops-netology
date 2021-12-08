@@ -6,3 +6,6 @@ This about third commit
 
 =======
 This is without fix
+
+hello there!
+General Kenobi!
