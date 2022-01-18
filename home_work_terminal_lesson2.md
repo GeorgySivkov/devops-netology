@@ -79,7 +79,105 @@ vagrant@netology1:~$ ssh localhost 'tty'
 not a tty
 ```
 Почитайте, почему так происходит, и как изменить поведение.   
-Ответ: -
+
+Ответ: Насколько я понял stackoverflow.com и unix.stackexchange.com - shell ожидает, что подключается пользователь (человек), который вводит какие-то данные с какого-то устройства, следовательно, контролирует стандарт со стороны клиента. Поэтому ```tty``` не запускается.
+Нашел два способа принудительно запустить ```tty```:
+- Через атрибут ```-t``` - ```ssh -t localhost 'tty'```
+- Добавить в конфиг ```ssh``` следующее: 
+```
+Host myserver.com
+  User my-ssh-username
+  RequestTTY Yes
+  ```
+
+---
+
+Бывает, что есть необходимость переместить запущенный процесс из одной сессии в другую. Попробуйте сделать это, воспользовавшись reptyr. Например, так можно перенести в screen процесс, который вы запустили по ошибке в обычной SSH-сессии.
+
+Ответ:
+```
+vagrant@vagrant:~$ sudo apt install reptyr
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following NEW packages will be installed:
+  reptyr
+0 upgraded, 1 newly installed, 0 to remove and 14 not upgraded.
+Need to get 22.5 kB of archives.
+After this operation, 67.6 kB of additional disk space will be used.
+Get:1 http://us.archive.ubuntu.com/ubuntu focal/universe amd64 reptyr amd64 0.6.2-1.3 [22.5 kB]
+Fetched 22.5 kB in 0s (50.6 kB/s) 
+Selecting previously unselected package reptyr.
+(Reading database ... 40620 files and directories currently installed.)
+Preparing to unpack .../reptyr_0.6.2-1.3_amd64.deb ...
+Unpacking reptyr (0.6.2-1.3) ...
+Setting up reptyr (0.6.2-1.3) ...
+Processing triggers for man-db (2.9.1-1) ...
+vagrant@vagrant:~$ 
+```
+
+```
+vagrant@vagrant:~$ sudo su - root
+root@vagrant:~# nano /etc/sysctl.d/10-ptrace.conf
+root@vagrant:~# cat /etc/sysctl.d/10-ptrace.conf
+The PTRACE system is used for debugging.  With it, a single user process
+can attach to any other dumpable process owned by the same user.  In the
+case of malicious software, it is possible to use PTRACE to access
+credentials that exist in memory (re-using existing SSH connections,
+extracting GPG agent information, etc).
+
+A PTRACE scope of "0" is the more permissive mode.  A scope of "1" limits
+PTRACE only to direct child processes (e.g. "gdb name-of-program" and
+"strace -f name-of-program" work, but gdb's "attach" and "strace -fp $PID"
+do not).  The PTRACE scope is ignored when a user has CAP_SYS_PTRACE, so
+"sudo strace -fp $PID" will work as before.  For more details see:
+https://wiki.ubuntu.com/SecurityTeam/Roadmap/KernelHardening#ptrace
+
+For applications launching crash handlers that need PTRACE, exceptions can
+be registered by the debugee by declaring in the segfault handler
+specifically which process will be using PTRACE on the debugee:
+prctl(PR_SET_PTRACER, debugger_pid, 0, 0, 0);
+
+In general, PTRACE is not needed for the average running Ubuntu system.
+To that end, the default is to set the PTRACE scope to "1".  This value
+may not be appropriate for developers or servers with only admin accounts.
+kernel.yama.ptrace_scope = 0
+```
+
+```
+root@vagrant:~# top
+```
+```
+root@vagrant:~# bg
+jobs -lgrant:~# 
+jobs -l
+[1]   1923 Stopped (signal)        top
+[2]-  1924 Stopped (signal)        top
+[3]+  1925 Stopped (signal)        top
+```
+
+```
+root@vagrant:~# disown top
+-bash: disown: top: ambiguous job spec
+-bash: disown: top: no such job
+```
+
+```
+root@vagrant:~# ps -a
+    PID TTY          TIME CMD
+   1891 pts/0    00:00:00 sudo
+   1892 pts/0    00:00:00 su
+   1893 pts/0    00:00:00 bash
+   1923 pts/0    00:00:00 top
+   1924 pts/0    00:00:00 top
+   1925 pts/0    00:00:00 top
+   1928 pts/0    00:00:00 ps
+```
+
+```
+root@vagrant:~# reptyr 1925
+   1982 root      20   0    2592   1880   1780 S   4.3   0.2   0:04.29 reptyr   
+```
 
 ---
 
