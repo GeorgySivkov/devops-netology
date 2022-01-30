@@ -217,19 +217,36 @@ route-views>show bgp 5.18.159.103 255.255.255.255
 
 ```
 vagrant@vagrant:~$ sudo -i
-root@vagrant:~# echo "dummy" >> /etc/modules
-root@vagrant:~# echo "options dummy numdummies=2" > /etc/modprobe.d/dummy.conf
-root@vagrant:~# nano /etc/network/interfaces
-root@vagrant:~# nano /etc/network/interfaces
-root@vagrant:~# cat /etc/network/interfaces
-auto dummy 0
-iface dummy0 inet static
-	address 10.2.2.2/32
-	pre-up ip link add dummy0 type dyummy
-	post-down ip link del dummy0
+root@vagrant:~# ip link add dummy0 type dummy
+root@vagrant:~# ip link set dummy0 up
+root@vagrant:~# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:b1:28:5d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 85703sec preferred_lft 85703sec
+    inet6 fe80::a00:27ff:feb1:285d/64 scope link 
+       valid_lft forever preferred_lft forever
+3: dummy0: <BROADCAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/ether 9e:1d:0e:64:f0:61 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::9c1d:eff:fe64:f061/64 scope link 
+       valid_lft forever preferred_lft forever
+root@vagrant:~# ip ro add 10.0.2.1 via 10.0.2.2
+root@vagrant:~# ip ro add 10.0.2.3 via 10.0.2.2
+root@vagrant:~# ip ro add 10.0.2.4 via 10.0.2.2
+root@vagrant:~# ip route
+default via 10.0.2.2 dev eth0 proto dhcp src 10.0.2.15 metric 100 
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
+10.0.2.1 via 10.0.2.2 dev eth0 
+10.0.2.2 dev eth0 proto dhcp scope link src 10.0.2.15 metric 100 
+10.0.2.3 via 10.0.2.2 dev eth0 
+10.0.2.4 via 10.0.2.2 dev eth0 
 ```
-
-
 
 ---
 
@@ -238,7 +255,17 @@ iface dummy0 inet static
 Ответ: 
 
 ```
-
+root@vagrant:~# lsof -nP -i | grep TCP | grep LISTEN
+systemd-r   600 systemd-resolve   13u  IPv4  20943      0t0  TCP 127.0.0.53:53 (LISTEN)
+sshd        819            root    3u  IPv4  24963      0t0  TCP *:22 (LISTEN)
+sshd        819            root    4u  IPv6  24965      0t0  TCP *:22 (LISTEN)
+...
+root@vagrant:~# lsof -nP -i | grep TCP
+systemd-r   600 systemd-resolve   13u  IPv4  20943      0t0  TCP 127.0.0.53:53 (LISTEN)
+sshd        819            root    3u  IPv4  24963      0t0  TCP *:22 (LISTEN)
+sshd        819            root    4u  IPv6  24965      0t0  TCP *:22 (LISTEN)
+sshd      13923            root    4u  IPv4  43924      0t0  TCP 10.0.2.15:22->10.0.2.2:63147 (ESTABLISHED)
+sshd      13970         vagrant    4u  IPv4  43924      0t0  TCP 10.0.2.15:22->10.0.2.2:63147 (ESTABLISHED)
 ```
 
 ---
@@ -248,15 +275,14 @@ iface dummy0 inet static
 Ответ: 
 
 ```
-
+root@vagrant:~# lsof -nP -i | grep UDP | grep LISTEN 
+root@vagrant:~# lsof -nP -i | grep UDP
+systemd-n   598 systemd-network   19u  IPv4  20923      0t0  UDP 10.0.2.15:68 
+systemd-r   600 systemd-resolve   12u  IPv4  20942      0t0  UDP 127.0.0.53:53 
 ```
 
 ---
 
 Вопрос 5: Используя diagrams.net, создайте L3 диаграмму вашей домашней сети или любой другой сети, с которой вы работали.
 
-Ответ: 
-
-```
-
-```
+Ответ: схема во вложении. 
