@@ -49,7 +49,8 @@ for result in result_os.split('\n'):
 
 ### Вывод скрипта при запуске при тестировании:
 ```
-
+georgijsivkov@MacBook-Pro-Georgij py_lessons % /Users/georgijsivkov/PycharmProjects/Devops/devops-netology/py_lessons/git_status.py
+has_been_moved.txt
 ```
 
 ## Обязательная задача 3
