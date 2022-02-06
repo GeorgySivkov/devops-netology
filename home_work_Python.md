@@ -100,10 +100,44 @@ georgijsivkov@MacBook-Pro-Georgij branching % /Users/georgijsivkov/PycharmProjec
 
 ### Ваш скрипт:
 ```python
-???
+#!/usr/bin/env python3
+
+import socket as s
+import time as t
+import datetime as dt
+
+i = 1
+delay_checks_sec = 2
+srv = {'drive.google.com':'0.0.0.0', 'mail.google.com':'0.0.0.0', 'google.com':'0.0.0.0'}
+init = 0
+
+print('Script started')
+print(srv)
+print('==============')
+
+while 1 == 1:
+  for host in srv:
+    ip = s.gethostbyname(host)
+    if ip != srv[host]:
+      if i==1 and init !=1:
+        print(str(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +' [ERROR] ' + str(host) +' IP mistmatch: '+srv[host]+' '+ip)
+      srv[host]=ip
+# For test 50 iterations
+#  i+=1
+#  if i >= 50 :
+#    break
+#  t.sleep(delay_checks_sec)
 ```
 
 ### Вывод скрипта при запуске при тестировании:
 ```
-???
+georgijsivkov@MacBook-Pro-Georgij py_lessons % /Users/georgijsivkov/PycharmProjects/Devops/devops-netology/py_lessons/take_ip.py
+Script started
+{'drive.google.com': '0.0.0.0', 'mail.google.com': '0.0.0.0', 'google.com': '0.0.0.0'}
+==============
+2022-02-06 21:06:50 [ERROR] drive.google.com IP mistmatch: 0.0.0.0 64.233.165.194
+2022-02-06 21:06:50 [ERROR] mail.google.com IP mistmatch: 0.0.0.0 64.233.165.18
+2022-02-06 21:06:50 [ERROR] google.com IP mistmatch: 0.0.0.0 142.251.1.101
+georgijsivkov@MacBook-Pro-Georgij py_lessons % 
+
 ```
