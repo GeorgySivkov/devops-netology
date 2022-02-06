@@ -108,7 +108,7 @@ import time as t
 import datetime as dt
 
 i = 1
-delay_checks_sec = 2
+delay = 2
 srv = {'drive.google.com':'0.0.0.0', 'mail.google.com':'0.0.0.0', 'google.com':'0.0.0.0'}
 init = 0
 
@@ -127,7 +127,7 @@ while 1 == 1:
 #  i+=1
 #  if i >= 50 :
 #    break
-#  t.sleep(delay_checks_sec)
+#  t.sleep(delay)
 ```
 
 ### Вывод скрипта при запуске при тестировании:
