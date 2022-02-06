@@ -57,12 +57,42 @@ for result in result_os.split('\n'):
 
 ### Ваш скрипт:
 ```python
-???
+#!/usr/bin/env python3
+
+import os
+import sys
+
+cmd = os.getcwd()
+
+if len(sys.argv)>=2:
+    cmd = sys.argv[1]
+bash_command = ["cd "+cmd, "git status 2>&1"]
+
+print('')
+result_os = os.popen(' && '.join(bash_command)).read()
+for result in result_os.split('\n'):
+    if result.find('fatal') != -1:
+        print(cmd+' is not GIT repository')
+    if result.find('modified') != -1:
+        prepare_result = result.replace('\tmodified: ', '')
+        prepare_result = prepare_result.replace(' ', '')
+        print(cmd+prepare_result)
+print('')
 ```
 
 ### Вывод скрипта при запуске при тестировании:
 ```
-???
+georgijsivkov@MacBook-Pro-Georgij branching % /Users/georgijsivkov/PycharmProjects/Devops/devops-netology/branching/git_status_updated_script.py /Users/georgijsivkov/PycharmProjects/Devops/devops-netology/
+/Users/georgijsivkov/PycharmProjects/Devops/devops-netology/.gitignore
+/Users/georgijsivkov/PycharmProjects/Devops/devops-netology/branching/git_status_updated_script.py
+/Users/georgijsivkov/PycharmProjects/Devops/devops-netology/home_work_Python.md
+
+georgijsivkov@MacBook-Pro-Georgij branching % /Users/georgijsivkov/PycharmProjects/Devops/devops-netology/branching/git_status_updated_script.py /Users/georgijsivkov/PycharmProjects/Devops/test/
+/bin/sh: line 0: cd: /Users/georgijsivkov/PycharmProjects/Devops/test/: No such file or directory
+
+georgijsivkov@MacBook-Pro-Georgij branching % /Users/georgijsivkov/PycharmProjects/Devops/devops-netology/branching/git_status_updated_script.py /Users/georgijsivkov/PycharmProjects/Devops/
+/Users/georgijsivkov/PycharmProjects/Devops/ is not GIT repository
+
 ```
 
 ## Обязательная задача 4
