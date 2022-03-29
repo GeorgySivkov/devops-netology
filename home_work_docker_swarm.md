@@ -23,7 +23,7 @@ Global - Сервис будет запущен на каждой ноде.
 Создать ваш первый Docker Swarm кластер в Яндекс.Облаке   
 Для получения зачета, вам необходимо предоставить скриншот из терминала (консоли), с выводом команды:   
 
-Ответ: 
+Ответ: [Скриншот](https://github.com/GeorgySivkov/devops-netology/blob/main/src/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202022-03-29%20%D0%B2%2021.05.02.png)
 ```
 [root@node01 ~]# docker node ls
 ID                            HOSTNAME             STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
@@ -35,11 +35,11 @@ yrym54whdettuhggbnjpixly7     node05.netology.yc   Ready     Active             
 udbzsceb86xntnpvttdoaqv2q     node06.netology.yc   Ready     Active                          20.10.14
 ```
 ---
-Вопрос 3:
+Вопрос 3: 
 Создать ваш первый, готовый к боевой эксплуатации кластер мониторинга, состоящий из стека микросервисов.   
 Для получения зачета, вам необходимо предоставить скриншот из терминала (консоли), с выводом команды:   
 
-Ответ: 
+Ответ: [Скриншот](https://github.com/GeorgySivkov/devops-netology/blob/main/src/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202022-03-29%20%D0%B2%2021.05.02.png)
 ```
 [root@node01 ~]# docker service ls
 ID             NAME                                MODE         REPLICAS   IMAGE                                          PORTS
