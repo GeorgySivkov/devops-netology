@@ -5,7 +5,8 @@
 
 Приведите получившуюся команду или docker-compose манифест.
 
-###Ответ: 
+### Ответ: 
+
 ```
 (venv) georgijsivkov@MacBook-Pro-Georgij homework % docker pull postgres:12
 ...
@@ -47,7 +48,8 @@ f17e48add5eb   postgres:12   "docker-entrypoint.s…"   About a minute ago   Up 
 - SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
 - список пользователей с правами над таблицами test_db
 
-###Ответ: 
+### Ответ: 
+
 - итоговый список БД после выполнения пунктов выше
 ```
 postgres=# \l
@@ -131,7 +133,8 @@ postgres=# select * from information_schema.table_privileges where grantee in ('
     - запросы 
     - результаты их выполнения.
 
-###Ответ: 
+### Ответ: 
+
 ```
 postgres=# insert into orders VALUES (1, 'Шоколад', 10), (2, 'Принтер', 3000), (3, 'Книга', 500), (4, 'Монитор', 7000), (5, 'Гитара', 4000);
 INSERT 0 5
@@ -169,7 +172,8 @@ postgres=# select count (*) from clients;
  
 Подсказк - используйте директиву `UPDATE`.
 
-###Ответ: 
+### Ответ: 
+
 ```
 postgres=# update  clients set booking = 3 where id = 1;
 UPDATE 1
@@ -194,7 +198,8 @@ postgres=# select * from clients as c where  exists (select id from orders as o 
 
 Приведите получившийся результат и объясните что значат полученные значения.
 
-###Ответ: 
+### Ответ:
+
 - Показывает нагрузку на исполнение запроса. Показывает шаги, связи, сбор, сканирование таблиц после связи. 
 ```
 postgres=# explain select * from clients as c where exists (select id from orders as o where c.booking = o.id);
@@ -230,7 +235,8 @@ postgres=# explain select * from clients where booking is not null;
 
 Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
 
-###Ответ: 
+### Ответ: 
+
 ```
 (venv) georgijsivkov@MacBook-Pro-Georgij homework % docker exec -t homework pg_dump -U postgres test_db -f /var/lib/docker/volumes/vol2/_data/dumb_test.sql
 ...
