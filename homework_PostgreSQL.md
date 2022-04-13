@@ -172,7 +172,7 @@ root@ecbde283b634:/var/lib/postgresql/data# ls
 base    pg_commit_ts  pg_hba.conf    pg_logical    pg_notify    pg_serial     pg_stat      pg_subtrans  pg_twophase  pg_wal   postgresql.auto.conf  postmaster.opts  test_database_dump.sql
 global  pg_dynshmem   pg_ident.conf  pg_multixact  pg_replslot  pg_snapshots  pg_stat_tmp  pg_tblspc    PG_VERSION   pg_xact  postgresql.conf       postmaster.pid   test_dumb.sql
 ```
-Для уникальности можно добавить индекс или первичный ключ
+Можно попробовать добавить свойство UNIQUE: 
 ```
-CREATE INDEX ON orders ((lower(title)));
+title character varying(80) NOT NULL UNIQUE,
 ```
