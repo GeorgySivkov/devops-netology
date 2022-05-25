@@ -53,4 +53,4 @@ compute-default-zone: ru-central1-a
  
 ### Ответ
 1. Packer
-2. []()
+2. [Link](https://github.com/GeorgySivkov/devops-netology/tree/main/src/tf)
