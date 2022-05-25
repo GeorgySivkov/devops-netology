@@ -8,6 +8,7 @@
 2. Так же для тестирования кода можно использовать песочницу: [https://play.golang.org/](https://play.golang.org/).
 
 ###Ответ
+
 ```
 (venv) georgijsivkov@MacBook-Pro-Georgij devops-netology % go version        
 go version go1.18.2 darwin/amd64
@@ -51,6 +52,7 @@ go version go1.18.2 darwin/amd64
 В виде решения ссылку на код или сам код. 
 
 ###Ответ
+
 ```
 Перевод метров в футы
 
