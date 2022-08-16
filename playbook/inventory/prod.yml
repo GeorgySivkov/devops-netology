@@ -1,0 +1,11 @@
+---
+  el:
+    hosts:
+      centos7:
+        ansible_host: centos
+        ansible_connection: docker
+  deb:
+    hosts:
+      ubuntu:
+        ansible_host: ubuntu
+        ansible_connection: docker

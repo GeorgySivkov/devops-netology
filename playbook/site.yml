@@ -1,0 +1,16 @@
+---
+  - name: install python to ubuntu
+    hosts: ubuntu
+    gather_facts: no
+    tasks:
+      - name: install python2
+        raw: sudo apt-get -y install python
+  - name: Print os facts
+    hosts: all
+    tasks:
+      - name: Print OS
+        debug:
+          msg: "{{ ansible_distribution }}"
+      - name: Print fact
+        debug:
+          msg: "{{ some_fact }}"
